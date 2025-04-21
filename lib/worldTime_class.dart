@@ -28,10 +28,10 @@ class WorldTime {
       // print(current);
 
       // time = current.toString();
-      isDayTime = current.hour > 12 && current.hour < 16 ? true : false;
-      isEveningTime = current.hour > 16 && current.hour < 20 ? true : false;
-      isMorningTime = current.hour > 6 && current.hour < 12 ? true : false;
-      isNightTime = current.hour > 20 && current.hour < 6 ? true : false;
+      isMorningTime = current.hour >= 6 && current.hour < 12;
+      isDayTime = current.hour >= 12 && current.hour < 16;
+      isEveningTime = current.hour >= 16 && current.hour < 20;
+      isNightTime = current.hour >= 20 || current.hour < 6;
       time = DateFormat.jm().format(current);
     } catch (e) {
       print('Error: $e');
