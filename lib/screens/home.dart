@@ -65,8 +65,23 @@ class _HomeState extends State<Home> {
             child: Column(
               children: [
                 TextButton.icon(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/location');
+                  onPressed: () async {
+                    dynamic res = await Navigator.pushNamed(
+                      context,
+                      '/location',
+                    );
+                    setState(() {
+                      api_data_from_loading_widget = {
+                        'time': res['time'],
+                        'continent': res['continent'],
+                        'city': res['city'],
+                        'flag': res['flag'],
+                        'isDayTime': res['isDayTime'],
+                        'isEveningTime': res['isEveningTime'],
+                        'isMorningTime': res['isMorningTime'],
+                        'isNightTime': res['isNightTime'],
+                      };
+                    });
                   },
                   label: Text(
                     'Edit Location',
