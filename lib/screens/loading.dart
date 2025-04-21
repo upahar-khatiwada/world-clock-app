@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:world_clock/worldTime_class.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatefulWidget {
   const Loading({super.key});
@@ -9,21 +10,35 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  String curr_Time = 'Loading Time';
-
   void setupWorldTime() async {
-    print('Test from loading xd');
     WorldTime worldTime = WorldTime(
       continent: 'asia',
       city: 'kathmandu',
       flag: 'Nepal.png',
     );
     await worldTime.getTime();
+
+    if (!mounted) return;
+
+    Navigator.pushReplacementNamed(
+      context,
+      '/home',
+      arguments: {
+        'time': worldTime.time,
+        'continent': worldTime.continent,
+        'city': worldTime.city,
+        'flag': worldTime.flag,
+        'isDayTime': worldTime.isDayTime,
+        'isEveningTime': worldTime.isEveningTime,
+        'isMorningTime': worldTime.isMorningTime,
+        'isNightTime': worldTime.isNightTime,
+      },
+    );
     // print(worldTime.time);
 
-    setState(() {
-      curr_Time = worldTime.time;
-    });
+    // setState(() {
+    //   curr_Time = worldTime.time;
+    // });
   }
 
   @override
@@ -36,12 +51,8 @@ class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Text(curr_Time, style: TextStyle(fontSize: 20)),
-        ),
-      ),
+      backgroundColor: Colors.grey[300],
+      body: Center(child: SpinKitFadingCircle(color: Colors.black45, size: 60)),
     );
   }
 }
