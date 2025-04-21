@@ -16,8 +16,8 @@ List<WorldTime> locations = [
   WorldTime(continent: 'asia', city: 'tokyo', flag: 'Japan.png'),
   WorldTime(continent: 'asia', city: 'shanghai', flag: 'China.png'),
   WorldTime(continent: 'asia', city: 'seoul', flag: 'South Korea.png'),
-  WorldTime(continent: 'asia', city: 'singapore', flag: 'Singapore.png'),
-  WorldTime(continent: 'asia', city: 'delhi', flag: 'India.png'),
+  WorldTime(continent: 'asia', city: 'kuwait', flag: 'Kuwait.png'),
+  WorldTime(continent: 'asia', city: 'thimphu', flag: 'Bhutan.png'),
   WorldTime(continent: 'asia', city: 'bangkok', flag: 'Thailand.png'),
 
   // Europe (5)

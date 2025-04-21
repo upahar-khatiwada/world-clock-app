@@ -35,7 +35,7 @@ class _LoadingState extends State<Loading> {
       },
     );
     // print(worldTime.time);
-
+    //
     // setState(() {
     //   curr_Time = worldTime.time;
     // });
@@ -52,7 +52,18 @@ class _LoadingState extends State<Loading> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      body: Center(child: SpinKitFadingCircle(color: Colors.black45, size: 60)),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Loading..',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            SpinKitFadingCircle(color: Colors.black45, size: 70),
+          ],
+        ),
+      ),
     );
   }
 }
