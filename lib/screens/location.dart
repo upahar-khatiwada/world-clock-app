@@ -11,8 +11,32 @@ class Location extends StatefulWidget {
 }
 
 class _LocationState extends State<Location> {
+  final TextEditingController _searchController = TextEditingController();
+  List<WorldTime> filteredLocations = [];
+
+  @override
+  void initState() {
+    super.initState();
+    print("Total locations: ${locations.length}"); // Debug line
+    filteredLocations = locations;
+    _searchController.addListener(_filterLocations);
+  }
+
+  void _filterLocations() {
+    setState(() {
+      filteredLocations =
+          locations
+              .where(
+                (location) => location.city.toLowerCase().contains(
+                  _searchController.text.toLowerCase(),
+                ),
+              )
+              .toList();
+    });
+  }
+
   void setTime(index) async {
-    WorldTime temp = locations[index];
+    WorldTime temp = filteredLocations[index];
     await temp.getTime();
     Navigator.pop(context, {
       'time': temp.time,
@@ -27,14 +51,42 @@ class _LocationState extends State<Location> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Colors.grey[400],
-        title: Text(
-          'Choose Location',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.grey, Colors.blueGrey],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        title: TextField(
+          controller: _searchController,
+          style: TextStyle(color: Colors.white70),
+          decoration: InputDecoration(
+            hintText: 'Search...',
+            hintStyle: TextStyle(color: Colors.black45),
+            border: InputBorder.none,
+            prefixIcon: Icon(Icons.search, color: Colors.white70),
+            suffixIcon: IconButton(
+              onPressed: () {
+                _searchController.clear();
+              },
+              icon: Icon(Icons.clear, color: Colors.white70),
+            ),
+            contentPadding: EdgeInsets.only(top: 12),
+          ),
         ),
       ),
       body: SafeArea(
@@ -52,7 +104,7 @@ class _LocationState extends State<Location> {
             // Divider(thickness: 2, indent: 20, endIndent: 20),
             Expanded(
               child: ListView.builder(
-                itemCount: locations.length,
+                itemCount: filteredLocations.length,
                 itemBuilder: (context, index) {
                   return Card(
                     child: ListTile(
@@ -60,7 +112,7 @@ class _LocationState extends State<Location> {
                         setTime(index);
                         // Navigator.pop(context);
                       },
-                      title: Text(capitalize(locations[index].city)),
+                      title: Text(capitalize(filteredLocations[index].city)),
                       leading: Container(
                         width: 50,
                         height: 50,
@@ -70,7 +122,7 @@ class _LocationState extends State<Location> {
                         ),
                         child: CircleAvatar(
                           backgroundImage: AssetImage(
-                            'assets/flags/${locations[index].flag}',
+                            'assets/flags/${filteredLocations[index].flag}',
                           ),
                         ),
                       ),
