@@ -1,3 +1,3 @@
 # world_clock
 
-A world clock app made using the World Time API.
+A world clock mobile app made using Flutter and the World Time API.
